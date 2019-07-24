@@ -22,6 +22,7 @@ namespace UserManagementSystem
             if (!IsPostBack)
             {
                 GetDataToEdit();
+                GetQualificationlist();
             }
         }
 
@@ -57,7 +58,7 @@ namespace UserManagementSystem
             {
                 lblStatus.ForeColor = System.Drawing.Color.Green;
                 lblStatus.Text = "Data saved successfully!";
-                Response.Redirect("Contact.aspx");
+                Response.Redirect("ShowEmployeeRecord .aspx");
             }
             else
             {
@@ -72,6 +73,21 @@ namespace UserManagementSystem
             txtAddress.Text = "";
             txtPinCode.Text = "";
         }
-        
+        private void GetQualificationlist()
+        {
+            con = new SqlConnection(connString);
+            string cmdText = "select qual_id, Name from Qualification";
+            using (cmd = new SqlCommand(cmdText, con))
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+                ddlQualification.DataSource = ds;
+                ddlQualification.DataBind();
+                con.Close();
+
+            }
+        }
     }
 }

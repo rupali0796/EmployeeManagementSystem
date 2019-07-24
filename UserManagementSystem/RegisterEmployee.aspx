@@ -60,12 +60,7 @@
             </div>
             <div class="form-group">
                 <label for="drp1">Qualification:</label>
-                <asp:DropDownList class="form-control" ID="drp1" runat="server" >
-                    <asp:ListItem>----Select----</asp:ListItem>
-                    <asp:ListItem>BCA</asp:ListItem>
-                    <asp:ListItem>MCA</asp:ListItem>
-                    <asp:ListItem>BSC.CS</asp:ListItem>
-                    <asp:ListItem>B.tech.CS</asp:ListItem>
+                <asp:DropDownList class="form-control" ID="ddlQualification" runat="server" >
                 </asp:DropDownList>
             </div>
             <asp:Button runat="server" ID="btnSubmit" Text="Submit" type="Submit" class="btn btn-default" OnClick="btnSubmit_Click"></asp:Button>
