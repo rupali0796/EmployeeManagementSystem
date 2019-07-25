@@ -43,13 +43,19 @@ namespace UserManagementSystem
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             con = new SqlConnection(connString);
-            cmd = new SqlCommand("insert into Registration values (@Name, @FatherName,@Age, @Email, @Address, @PinCode)", con);
-            cmd.Parameters.AddWithValue("Name", txtName.Text);
-            cmd.Parameters.AddWithValue("FatherName", txtFatherName.Text);
-            cmd.Parameters.AddWithValue("Age", txtAge.Text);
-            cmd.Parameters.AddWithValue("Email", txtEmail.Text);
-            cmd.Parameters.AddWithValue("Address", txtAddress.Text);
-            cmd.Parameters.AddWithValue("PinCode", txtPinCode.Text);
+
+
+            cmd = new SqlCommand("insert into Registration values (@Name, @FatherName,@Age, @Email, @Address, @PinCode, @Qualification, @Gender)", con);
+            cmd.Parameters.AddWithValue("@Name", txtName.Text);
+            cmd.Parameters.AddWithValue("@FatherName", txtFatherName.Text);
+            cmd.Parameters.AddWithValue("@Age", txtAge.Text);
+            cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+            cmd.Parameters.AddWithValue("@Address", txtAddress.Text);
+            cmd.Parameters.AddWithValue("@PinCode", txtPinCode.Text);
+            cmd.Parameters.AddWithValue("@Qualification", ddlQualification.SelectedItem.Text);
+            string Gender = String.Empty;
+            Gender = rbtnMale.Checked ? "Male" : "Female";
+            cmd.Parameters.AddWithValue("@Gender", Gender);
             con.Open();
             int response = cmd.ExecuteNonQuery();
             con.Close();
@@ -58,7 +64,7 @@ namespace UserManagementSystem
             {
                 lblStatus.ForeColor = System.Drawing.Color.Green;
                 lblStatus.Text = "Data saved successfully!";
-                Response.Redirect("ShowEmployeeRecord .aspx");
+                Response.Redirect("ShowEmployeeRecord.aspx");
             }
             else
             {
@@ -83,11 +89,14 @@ namespace UserManagementSystem
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);
                 DataSet ds = new DataSet();
                 sda.Fill(ds);
-                ddlQualification.DataSource = ds;
-                ddlQualification.DataBind();
                 con.Close();
-
+                ddlQualification.DataSource = ds;
+                ddlQualification.DataTextField = "Name";
+                ddlQualification.DataValueField = "qual_id";
+                ddlQualification.DataBind();
+                ddlQualification.Items.Insert(0, new ListItem("--Select--", "0"));
             }
         }
+       
     }
 }

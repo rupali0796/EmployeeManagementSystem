@@ -31,7 +31,7 @@ namespace UserManagementSystem
         {
             using (con = new SqlConnection(ConnectionString))
             {
-                string cmdText = "select Reg_id, Name,FatherName,Age,Email,Address,PinCode from [dbo].[Registration]";
+                string cmdText = "select Reg_id, Name,FatherName,Age,Email,Address,PinCode,Qualification,Gender from [dbo].[Registration]";
                 using (cmd = new SqlCommand(cmdText, con))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -90,7 +90,7 @@ namespace UserManagementSystem
         {
             con = new SqlConnection(ConnectionString);
             con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter(" SELECT * FROM [dbo].[Registration] ORDER BY Name, FatherName,Age,Email,Address,PinCode ;", con);
+            SqlDataAdapter sda = new SqlDataAdapter(" SELECT * FROM [dbo].[Registration] ORDER BY Name, FatherName,Age,Email,Address,PinCode, Qualification, Gender ;", con);
             DataSet ds = new DataSet();
             sda.Fill(ds);
             grvEmployee.DataSource = ds;
@@ -112,6 +112,7 @@ namespace UserManagementSystem
                 Email = ((Label)grvEmployee.Rows[index].FindControl("lblEmail")).Text.ToString(),
                 Address = ((Label)grvEmployee.Rows[index].FindControl("lblAddress")).Text.ToString(),
                 Pincode = ((Label)grvEmployee.Rows[index].FindControl("lblPinCode")).Text.ToString(),
+                
             };
 
             Session["FormDataToEdit"] = formData;

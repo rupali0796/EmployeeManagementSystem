@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -21,6 +22,7 @@ namespace UserManagementSystem
             if (!IsPostBack)
             {
                 GetDataToEdit();
+                GetQualificationlist();
             }
         }
 
@@ -41,7 +43,7 @@ namespace UserManagementSystem
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             con = new SqlConnection(connString);
-            cmd = new SqlCommand("update[dbo].[Registration] set Name = @Name, FatherName = @FatherName, Age = @Age, Email = @Email, Address = @Address, PinCode = @PinCode where Reg_id = @emp_id; ", con);
+            cmd = new SqlCommand("update[dbo].[Registration] set Name = @Name, FatherName = @FatherName, Age = @Age, Email = @Email, Address = @Address, PinCode = @PinCode ,Qualification = @Qualification , Gender = @Gender where Reg_id = @emp_id; ", con);
             cmd.Parameters.AddWithValue("emp_id", hdnfldEmployeeID.Value);
             cmd.Parameters.AddWithValue("Name", txtName.Text);
             cmd.Parameters.AddWithValue("FatherName", txtFatherName.Text);
@@ -49,6 +51,10 @@ namespace UserManagementSystem
             cmd.Parameters.AddWithValue("Email", txtEmail.Text);
             cmd.Parameters.AddWithValue("Address", txtAddress.Text);
             cmd.Parameters.AddWithValue("PinCode", txtPinCode.Text);
+            cmd.Parameters.AddWithValue("@Qualification", ddlQualification.SelectedItem.Text);
+            string Gender = String.Empty;
+            Gender = rbtnMale.Checked ? "Male" : "Female";
+            cmd.Parameters.AddWithValue("@Gender", Gender);
             con.Open();
             int response = cmd.ExecuteNonQuery();
             con.Close();
@@ -71,6 +77,24 @@ namespace UserManagementSystem
             txtEmail.Text = "";
             txtAddress.Text = "";
             txtPinCode.Text = "";
+        }
+        private void GetQualificationlist()
+        {
+            con = new SqlConnection(connString);
+            string cmdText = "select qual_id, Name from Qualification";
+            using (cmd = new SqlCommand(cmdText, con))
+            {
+                con.Open();
+                SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                sda.Fill(ds);
+                con.Close();
+                ddlQualification.DataSource = ds;
+                ddlQualification.DataTextField = "Name";
+                ddlQualification.DataValueField = "qual_id";
+                ddlQualification.DataBind();
+                ddlQualification.Items.Insert(0, new ListItem("--Select--", "0"));
+            }
         }
 
     }

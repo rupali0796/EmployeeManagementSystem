@@ -5,7 +5,7 @@
         <asp:GridView ID="grvEmployee" runat="server" AllowPaging="true" EnableModelValidation="True"
             GridLines="Both" ItemStyle-HorizontalAlign="center" EmptyDataText="There Is No Records In Database!"
             AutoGenerateColumns="false" Width="1098px" HeaderStyle-ForeColor="blue" OnPageIndexChanging="grvEmployee_PageIndexChanging"
-             OnRowDeleting="grvEmployee_RowDeleting" OnRowEditing="grvEmployee_RowEditing" Height="417px">
+            OnRowDeleting="grvEmployee_RowDeleting" OnRowEditing="grvEmployee_RowEditing" Height="417px">
 
             <HeaderStyle CssClass="DataGridFixedHeader" />
             <RowStyle CssClass="grid_item" />
@@ -67,6 +67,22 @@
                     </ItemTemplate>
 
                 </asp:TemplateField>
+                <asp:TemplateField HeaderText="Qualification">
+                    <HeaderStyle HorizontalAlign="Left" />
+                    <ItemStyle HorizontalAlign="Left" />
+                    <ItemTemplate>
+                        <asp:Label runat="server" ID="qual_id" Text='<%#Eval("Qualification") %>'></asp:Label>
+                    </ItemTemplate>
+
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Gender">
+                    <HeaderStyle HorizontalAlign="Left" />
+                    <ItemStyle HorizontalAlign="Left" />
+                    <ItemTemplate>
+                        <asp:Label runat="server" ID="rbtnMale" Text='<%#Eval("Gender") %>'></asp:Label>
+                    </ItemTemplate>
+
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="Update">
                     <HeaderStyle HorizontalAlign="Left" />
                     <ItemStyle HorizontalAlign="Left" />
@@ -87,6 +103,6 @@
         </asp:GridView>
     </div>
     <div>
-        <asp:Label runat="server" ID="lblMessage" ></asp:Label>
+        <asp:Label runat="server" ID="lblMessage"></asp:Label>
     </div>
 </asp:Content>
